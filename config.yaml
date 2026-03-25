@@ -25,8 +25,8 @@ collectors:
         url: "https://assets.wor.jp/rss/rdf/nikkei/economy.rdf"
       - name: "ロイター Japan"
         url: "https://assets.wor.jp/rss/rdf/reuters/top.rdf"
-      - name: "Bloomberg Japan"
-        url: "https://www.bloomberg.co.jp/feeds/sitemap_news.xml"
+      - name: "株探ニュース"
+        url: "https://kabutan.jp/news/marketnews/?rss=1"
   newsapi:
     enabled: true
     queries:
