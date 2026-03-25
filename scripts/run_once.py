@@ -13,12 +13,14 @@ from src.storage.database import Database
 
 
 def main():
+    log_dir = BASE_DIR / "data"
+    log_dir.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler(BASE_DIR / "data" / "stock_advise.log"),
+            logging.FileHandler(log_dir / "stock_advise.log"),
         ],
     )
     logger = logging.getLogger(__name__)
