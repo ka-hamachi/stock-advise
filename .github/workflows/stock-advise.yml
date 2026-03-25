@@ -1,0 +1,33 @@
+name: Stock Advise Pipeline
+
+on:
+  schedule:
+    # JST = UTC+9 なので9時間引く
+    - cron: "30 23 * * *"   # 08:30 JST (前日23:30 UTC)
+    - cron: "0 3 * * *"     # 12:00 JST (03:00 UTC)
+    - cron: "0 13 * * *"    # 22:00 JST (13:00 UTC)
+  workflow_dispatch: {}      # 手動実行も可能
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Run pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_URGENT: ${{ secrets.SLACK_WEBHOOK_URL_URGENT }}
+        run: python scripts/run_once.py

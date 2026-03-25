@@ -1,0 +1,370 @@
+schedule:
+  # 1日3回の固定スケジュール (JST)
+  cron_hours: "8,12,22"
+  cron_minutes: "30,0,0"
+
+collectors:
+  rss:
+    enabled: true
+    feeds:
+      # 米国株
+      - name: "Yahoo Finance US"
+        url: "https://finance.yahoo.com/news/rssindex"
+      - name: "CNBC Top News"
+        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114"
+      - name: "Seeking Alpha"
+        url: "https://seekingalpha.com/market_currents.xml"
+      - name: "MarketWatch"
+        url: "https://feeds.marketwatch.com/marketwatch/topstories/"
+      # 日本株
+      - name: "Yahoo Finance Japan"
+        url: "https://news.yahoo.co.jp/rss/topics/business.xml"
+      - name: "日経新聞 マーケット"
+        url: "https://assets.wor.jp/rss/rdf/nikkei/markets.rdf"
+      - name: "日経新聞 経済"
+        url: "https://assets.wor.jp/rss/rdf/nikkei/economy.rdf"
+      - name: "ロイター Japan"
+        url: "https://assets.wor.jp/rss/rdf/reuters/top.rdf"
+      - name: "Bloomberg Japan"
+        url: "https://www.bloomberg.co.jp/feeds/sitemap_news.xml"
+  newsapi:
+    enabled: true
+    queries:
+      - "stock market IPO 2026"
+      - "US investment policy announcement"
+      - "Japan stock market Nikkei"
+      - "日本株 IPO 新規上場"
+    page_size: 20
+    interval_minutes: 120  # Longer interval to stay within free tier
+  sec:
+    enabled: true
+    form_types: ["S-1", "S-1/A"]
+    lookback_days: 3
+  twitter:
+    enabled: false
+    accounts:
+      - "unusual_whales"
+      - "DeItaone"
+      - "zabormarket"
+    cashtags:
+      - "$SPY"
+      - "$QQQ"
+
+analysis:
+  claude_model: "claude-sonnet-4-20250514"
+  max_items_per_batch: 50
+  focus_areas:
+    - "upcoming_ipo"
+    - "policy_announcement"
+    - "sector_rotation"
+    - "basket_buying"
+    - "earnings_catalyst"
+
+notifications:
+  urgent_threshold: 0.80
+  min_confidence: 0.40
+  dedup_window_hours: 24
+
+watchlist:
+  # --- 日本株 (証券コード) ---
+  jp_tickers:
+    # その他注目
+    - "9202"   # ANA
+    - "2432"   # DeNA
+    - "6178"   # 日本郵政
+    - "7181"   # かんぽ生命
+    - "7212"   # エフテック
+    - "5989"   # エイチワン
+    # エネルギー
+    - "9501"   # 東京電力
+    - "9517"   # イーレックス
+    - "5020"   # ENEOS
+    - "8088"   # 岩谷産業
+    - "1963"   # 日揮
+    - "6366"   # 千代田化工建設
+    - "6331"   # 三菱化工機
+    - "6503"   # 三菱電機
+    - "6504"   # 富士電機
+    # 非鉄
+    - "5706"   # 三井金属
+    - "5016"   # 新興プランテック
+    - "7826"   # フルヤ金属
+    - "5711"   # 三菱マテリアル
+    - "5713"   # 住友金属鉱山
+    # 半導体
+    - "9984"   # ソフトバンクG
+    - "285A"   # キオクシア
+    - "5803"   # フジクラ
+    - "5801"   # 古河電工
+    - "5802"   # 住友電工
+    - "6834"   # 精工技研
+    - "8035"   # 東京エレクトロン
+    - "6525"   # KOKUSAI ELECTRIC
+    - "7735"   # SCREENホールディングス
+    - "6227"   # アイメック
+    - "6857"   # アドバンテスト
+    - "6871"   # 日本マイクロニクス
+    - "6855"   # 日本電子材料
+    - "6315"   # TOWA
+    - "6890"   # フェローテック
+    - "4062"   # イビデン
+    - "3110"   # 日東紡
+    - "4182"   # 三菱ガス化学
+    - "4369"   # トリケミカル研究所
+    - "6278"   # ユニオンツール
+    - "4971"   # メック
+    - "6941"   # 山一電機
+    - "3407"   # 旭化成
+    - "5201"   # AGC
+    - "5210"   # 日本山村硝子
+    - "5214"   # 日本電気硝子
+    - "6981"   # 村田製作所
+    - "6976"   # 太陽誘電
+    - "5381"   # Mipox
+    - "6387"   # サムコ
+    # ソフトウェア
+    - "6702"   # 富士通
+    - "6701"   # NEC
+    - "4704"   # トレンドマイクロ
+    - "4684"   # オービック
+    # レアアース・商社
+    - "4082"   # 第一稀元素化学工業
+    - "6330"   # 東洋エンジニアリング
+    - "6269"   # 三井海洋開発
+    - "1885"   # 東亜建設工業
+    - "1605"   # INPEX
+    - "1662"   # 石油資源開発
+    - "5724"   # アサカ理研
+    - "5698"   # エンビプロHD
+    - "2768"   # 双日
+    - "3036"   # アルコニックス
+    - "8031"   # 三井物産
+    - "8058"   # 三菱商事
+    - "8002"   # 丸紅
+    # 造船・海運
+    - "7014"   # 名村造船所
+    - "7003"   # 三井E&S
+    - "7018"   # 内海造船
+    - "9101"   # 日本郵船
+    - "9107"   # 川崎汽船
+    - "9104"   # 商船三井
+    # 防衛
+    - "7011"   # 三菱重工
+    - "7012"   # 川崎重工
+    - "7013"   # IHI
+    - "7721"   # 東京計器
+    - "3692"   # FFRI
+    - "4493"   # サイバーセキュリティクラウド
+    # 宇宙
+    - "290A"   # スペースワン
+    - "186A"   # アストロスケール
+    - "9348"   # ispace
+    - "402A"   # ブルーイノベーション
+    - "464A"   # 将来宇宙輸送システム
+    # ドローン
+    - "278A"   # ACSL
+    - "5597"   # ブルーイノベーション
+    - "6232"   # 自律制御システム研究所
+    # 金融
+    - "8316"   # 三井住友FG
+    - "8306"   # 三菱UFJ
+    - "8411"   # みずほFG
+    - "7383"   # ネットプロテクションズ
+    - "3769"   # GMOペイメントゲートウェイ
+    - "8473"   # SBI
+    - "8698"   # マネックスG
+    - "9449"   # GMOインターネット
+    - "3350"   # レッドプラネット
+    # 不動産
+    - "8802"   # 三菱地所
+    - "8801"   # 三井不動産
+    - "3289"   # 東急不動産HD
+    - "3288"   # オープンハウスG
+    # フィジカルAI
+    - "6506"   # 安川電機
+    - "6954"   # ファナック
+    - "6861"   # キーエンス
+    # エンタメ
+    - "7974"   # 任天堂
+    - "8136"   # サンリオ
+    - "7832"   # バンダイナムコ
+    - "4661"   # オリエンタルランド
+
+  # --- 米国株 ---
+  us_tickers:
+    # コモディティ
+    - "IAU"    # iShares Gold
+    - "SLV"    # iShares Silver
+    - "NUGT"   # Gold Miners Bull 2X
+    - "GDX"    # Gold Miners ETF
+    - "GDXJ"   # Junior Gold Miners
+    - "SIL"    # Silver Miners ETF
+    - "COPX"   # Copper Miners ETF
+    - "REMX"   # Rare Earth ETF
+    - "URA"    # Uranium ETF
+    - "SCCO"   # Southern Copper
+    - "FCX"    # Freeport-McMoRan
+    - "BHP"    # BHP Group
+    - "CDE"    # Coeur Mining
+    - "AG"     # First Majestic Silver
+    # DC・マイニング・仮想通貨
+    - "NBIS"   # Nebius
+    - "CRWV"   # CoreWeave
+    - "ORCL"   # Oracle
+    - "IREN"   # Iris Energy
+    - "CIFR"   # Cipher Mining
+    - "BMNR"   # Bitcoin Miner
+    - "MSTR"   # MicroStrategy
+    # 接続
+    - "AAOI"   # Applied Optoelectronics
+    - "COHR"   # Coherent
+    - "LITE"   # Lumentum
+    - "FN"     # Fabrinet
+    - "CRDO"   # Credo Technology
+    - "ALAB"   # Astera Labs
+    # 半導体
+    - "NVDA"   # NVIDIA
+    - "AMD"    # AMD
+    - "ARM"    # Arm Holdings
+    - "AVGO"   # Broadcom
+    - "TSM"    # TSMC
+    - "TSEM"   # Tower Semi
+    - "SKYT"   # SkyWater Tech
+    - "AMAT"   # Applied Materials
+    - "ENTG"   # Entegris
+    - "Q"      # Qualcomm (旧ティッカー注意)
+    - "AMKR"   # Amkor
+    - "SMCI"   # Super Micro
+    - "MU"     # Micron
+    - "SNDK"   # SanDisk
+    - "WDC"    # Western Digital
+    - "STX"    # Seagate
+    # ソフトウェア
+    - "GOOG"   # Alphabet
+    - "META"   # Meta
+    - "APP"    # AppLovin
+    - "RDDT"   # Reddit
+    - "INTU"   # Intuit
+    - "PATH"   # UiPath
+    - "PLTR"   # Palantir
+    # ネットワーク
+    - "ANET"   # Arista Networks
+    - "NET"    # Cloudflare
+    - "CRWD"   # CrowdStrike
+    - "PANW"   # Palo Alto Networks
+    - "ZS"     # Zscaler
+    # 宇宙
+    - "RKLB"   # Rocket Lab
+    - "FLY"    # Fly Leasing
+    - "ASTS"   # AST SpaceMobile
+    - "LUNR"   # Intuitive Machines
+    - "PL"     # Planet Labs
+    # ドローン・防衛
+    - "ONDS"   # Ondas Holdings
+    - "AVAV"   # AeroVironment
+    - "RCAT"   # Red Cat Holdings
+    - "KRMN"   # Karman Holdings
+    - "KTOS"   # Kratos Defense
+    - "MRCY"   # Mercury Systems
+    - "DRS"    # Leonardo DRS
+    - "LPTH"   # LightPath Tech
+    # 量子
+    - "IONQ"   # IonQ
+    - "RGTI"   # Rigetti
+    - "QBTS"   # D-Wave Quantum
+    - "QUBT"   # Quantum Computing
+    # レアアース
+    - "MP"     # MP Materials
+    - "UUUU"   # Energy Fuels
+    - "USAR"   # USA Rare Earth
+    - "CRML"   # Critical Metals
+    # 大型エネルギー
+    - "OXY"    # Occidental
+    - "COP"    # ConocoPhillips
+    - "XOM"    # ExxonMobil
+    - "CVX"    # Chevron
+    # エネルギー
+    - "BE"     # Bloom Energy
+    - "TE"     # TECO Energy
+    - "FLNC"   # Fluence Energy
+    - "EOSE"   # Eos Energy
+    - "SEI"    # Solaris Energy
+    - "GEV"    # GE Vernova
+    - "MYRG"   # MYR Group
+    - "VST"    # Vistra
+    - "OKLO"   # Oklo
+    - "SMR"    # NuScale Power
+    - "BWXT"   # BWX Technologies
+    # 金融
+    - "SOFI"   # SoFi
+    - "AFRM"   # Affirm
+    - "PGY"    # Pagaya
+    - "ETOR"   # eToro
+    - "WT"     # WisdomTree
+    - "MC"     # Moelis
+    - "COIN"   # Coinbase
+    - "GEMI"   # Gemini
+    - "CRCL"   # Circle
+    # 住宅ローン
+    - "OPEN"   # Opendoor
+    - "PHM"    # PulteGroup
+    - "RKT"    # Rocket Companies
+    - "UWMC"   # UWM Holdings
+    # ヘルスケア
+    - "OSCR"   # Oscar Health
+    - "LLY"    # Eli Lilly
+    - "ROIV"   # Roivant Sciences
+    - "AXSM"   # Axsome Therapeutics
+    - "SMMT"   # Summit Therapeutics
+    - "HALO"   # Halozyme
+    - "APGE"   # Apogee Therapeutics
+    - "IONS"   # Ionis Pharmaceuticals
+    - "HIMS"   # Hims & Hers Health
+    - "GH"     # Guardant Health
+    - "NTRA"   # Natera
+    # 自動車
+    - "TSLA"   # Tesla
+    - "RIVN"   # Rivian
+    - "GM"     # General Motors
+    # ロボット
+    - "TER"    # Teradyne
+    - "SERV"   # Serve Robotics
+    - "SYM"    # Symbotic
+    # 冷却
+    - "VRT"    # Vertiv
+    - "TT"     # Trane Technologies
+    # 小売・流通
+    - "WMT"    # Walmart
+    - "W"      # Wayfair
+    # セクターETF
+    - "BOTZ"   # Robotics & AI ETF
+    - "SHLD"   # Pacer Military ETF
+    - "ITA"    # iShares Defense ETF
+    - "SOXL"   # Semi Bull 3X
+    - "SOXS"   # Semi Bear 3X
+    - "TQQQ"   # NASDAQ Bull 3X
+    - "SQQQ"   # NASDAQ Bear 3X
+    - "ERX"    # Energy Bull 2X
+    - "GUSH"   # Oil & Gas Bull 2X
+    - "UBOT"   # AI & Robotics Bull 2X
+
+  # --- セクター ---
+  sectors:
+    - "半導体"
+    - "防衛・宇宙"
+    - "エネルギー"
+    - "レアアース・非鉄"
+    - "造船・海運"
+    - "金融・フィンテック"
+    - "不動産"
+    - "ドローン"
+    - "量子コンピュータ"
+    - "AI・ロボット"
+    - "コモディティ"
+    - "仮想通貨・マイニング"
+    - "ヘルスケア"
+    - "宇宙"
+    - "EV・自動車"
+
+storage:
+  db_path: "data/stock_advise.db"
