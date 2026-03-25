@@ -25,7 +25,7 @@ class NewsAPICollector(BaseCollector):
             return []
 
         items: list[RawItem] = []
-        from_date = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%S")
+        from_date = (datetime.now(timezone.utc) - timedelta(hours=15)).strftime("%Y-%m-%dT%H:%M:%S")
 
         for query in self.queries:
             try:

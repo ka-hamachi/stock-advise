@@ -3,8 +3,7 @@ name: Stock Advise Pipeline
 on:
   schedule:
     # JST = UTC+9 なので9時間引く
-    - cron: "30 23 * * *"   # 08:30 JST (前日23:30 UTC)
-    - cron: "0 3 * * *"     # 12:00 JST (03:00 UTC)
+    - cron: "0 23 * * *"    # 08:00 JST (前日23:00 UTC)
     - cron: "0 13 * * *"    # 22:00 JST (13:00 UTC)
   workflow_dispatch: {}      # 手動実行も可能
 

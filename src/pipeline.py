@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from src.analysis.claude_analyzer import ClaudeAnalyzer
 from src.collectors.base import BaseCollector
@@ -53,18 +53,33 @@ def run_pipeline(db: Database, config: dict) -> RunStats:
     started_at = datetime.now(timezone.utc)
     stats = RunStats()
 
+    # 鮮度フィルタ: lookback_hours以内のニュースのみ
+    lookback_hours = config.get("schedule", {}).get("lookback_hours", 15)
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=lookback_hours)
+
     # 1. Collect
     collectors = get_collectors(config)
+    all_items = []
     for collector in collectors:
         try:
-            items = collector.collect()
-            for item in items:
-                if db.insert_raw_item(item):
-                    stats.collected += 1
+            all_items.extend(collector.collect())
         except Exception:
             logger.exception("Collector %s failed", type(collector).__name__)
 
-    logger.info("Collected %d new items", stats.collected)
+    # Filter: published_at が cutoff 以降のもの、または published_at が不明なもの(念のため含む)
+    fresh_items = []
+    for item in all_items:
+        if item.published_at is None or item.published_at >= cutoff:
+            fresh_items.append(item)
+
+    logger.info("Collected %d items total, %d fresh (within %dh)",
+                len(all_items), len(fresh_items), lookback_hours)
+
+    for item in fresh_items:
+        if db.insert_raw_item(item):
+            stats.collected += 1
+
+    logger.info("Stored %d new items", stats.collected)
 
     # 2. Analyze
     unprocessed = db.get_unprocessed_items(

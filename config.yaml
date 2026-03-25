@@ -1,7 +1,9 @@
 schedule:
-  # 1日3回の固定スケジュール (JST)
-  cron_hours: "8,12,22"
-  cron_minutes: "30,0,0"
+  # 1日2回の固定スケジュール (JST)
+  cron_hours: "8,22"
+  cron_minutes: "0,0"
+  # 前回実行からの新着ニュースのみ分析 (最大間隔は14h + バッファ)
+  lookback_hours: 15
 
 collectors:
   rss:

@@ -29,8 +29,8 @@ def main():
     db = Database(db_path)
 
     schedule_cfg = config.get("schedule", {})
-    cron_hours = schedule_cfg.get("cron_hours", "8,12,22")
-    cron_minutes = schedule_cfg.get("cron_minutes", "30,0,0")
+    cron_hours = schedule_cfg.get("cron_hours", "8,22")
+    cron_minutes = schedule_cfg.get("cron_minutes", "0,0")
 
     # Build individual cron jobs for each time slot
     hours = [h.strip() for h in str(cron_hours).split(",")]
